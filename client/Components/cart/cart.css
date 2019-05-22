@@ -1,0 +1,19 @@
+.cart {
+    width: 25%;
+    float: right;
+    top: 0;
+    position: sticky;
+    background-color: #FFFFFF;
+    font-size: 20px;
+    height: 700px;
+    box-shadow: -3px 0px 6px 1px #aaaaaa;
+}
+
+.cart-pic{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 63%;
+    top: 10px;
+    margin-top:8%
+}

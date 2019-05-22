@@ -1,0 +1,33 @@
+.menu{
+  width:75%;
+  float: left;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 6.67%;
+    width: 86.67%;
+  }
+  
+  .container > div {
+    flex: 0 49%;
+    box-sizing: border-box;
+    margin: 0.5%;
+  }
+  
+  .menuTitle {
+    font-family: 'Roboto',sans-serif; 
+    font-weight: 700;
+    box-sizing: border-box;
+    width: 86.67%;
+    margin: 2% 6.67%;
+    padding-top: 2%;
+    font-size: 22px;
+}
+
+.badge-gray{
+  max-width: 22px;
+  height:auto;
+  margin: 0px 10px
+}
