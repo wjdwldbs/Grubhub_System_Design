@@ -1,14 +1,55 @@
-import React from 'react'
-import './menu_list_entry.css'
-const MenuListEntry = (props)=>(
-    <div className='menu-item'>
-            <p className='menu-item-price'>${props.data.price}</p>
-        <div className='menu-item-content'>
-            <p className='menu-item-name'>{props.data.item_name}{props.data.popular? <img className ='badge' src='./badge_white.png'></img>: null}</p>
-            <p className='menu-item-description'>{props.data.description}</p>
-        </div>
-        <div className='pic-box' style={{backgroundImage: `url(${props.data.photo_URL})`}}></div>
-    </div>
-)
+import React, { Component } from "react";
+import MenuItemModal from "../menu_item_modal/menu_item_modal.jsx";
+import "./menu_list_entry.css";
 
-export default MenuListEntry
+export default class MenuListEntry extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        showModal: false
+    };
+    this.toggleModal = this.toggleModal.bind(this);
+  }
+
+  toggleModal() {
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  }
+
+  render() {
+    return (
+      <div onClick = {this.state.showModal? ()=>{} : this.toggleModal} className="menu-item">
+        <p className="menu-item-price">${this.props.data.price}</p>
+        <div className="menu-item-content">
+          <p className="menu-item-name">
+            {this.props.data.item_name}
+            {this.props.data.popular ? (
+              <img className="badge" src="./badge_white.png" />
+            ) : null}
+          </p>
+          <p className="menu-item-description">{this.props.data.description}</p>
+        </div>
+        <div
+          className="pic-box"
+          style={{ backgroundImage: `url(${this.props.data.photo_URL})` }}
+        />
+        <MenuItemModal data = {this.props.data} open={this.state.showModal} onClose={this.toggleModal} />
+      </div>
+    );
+  }
+}
+
+// const MenuListEntry = (props)=>(
+//     <div className='menu-item'>
+//             <p className='menu-item-price'>${props.data.price}</p>
+//         <div className='menu-item-content'>
+//             <p className='menu-item-name'>{props.data.item_name}{props.data.popular? <img className ='badge' src='./badge_white.png'></img>: null}</p>
+//             <p className='menu-item-description'>{props.data.description}</p>
+//         </div>
+//         <div className='pic-box' style={{backgroundImage: `url(${props.data.photo_URL})`}}></div>
+//     </div>
+// )
+
+// export default MenuListEntry
