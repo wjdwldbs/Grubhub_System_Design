@@ -114,9 +114,11 @@ var photoFetcher = async function(query, page) {
   });
 };
 
-var photoFetcherKorean = async function(query,page, perPage) {
+var photoFetcherKorean = async function(query, page, perPage) {
   let response = await fetch(
-    `https://pixabay.com/api/?key=${headers.key}&q=${query}&per_page=${perPage}&page=${page}`
+    `https://pixabay.com/api/?key=${
+      headers.key
+    }&q=${query}&per_page=${perPage}&page=${page}`
   );
   let data = await response.json();
   return data.hits.map(x => {
@@ -126,34 +128,32 @@ var photoFetcherKorean = async function(query,page, perPage) {
   });
 };
 
-
-
 var photoGenerator = async function() {
   var korean = [
-    ...(await photoFetcherKorean('korean food', 1,160)),
+    ...(await photoFetcherKorean("korean food", 1, 160)),
     ...(await photoFetcher("asian food", 1)),
     ...(await photoFetcher("asian food", 2))
   ];
   var mexican = [
     ...(await photoFetcher("mexican food", 1)),
     ...(await photoFetcher("mexican food", 2)),
-    ...(await photoFetcherKorean('mexican food', 1,160)),
-    ...(await photoFetcherKorean('taco', 1,9)),
+    ...(await photoFetcherKorean("mexican food", 1, 160)),
+    ...(await photoFetcherKorean("taco", 1, 9))
   ];
   var chinese = [
     ...(await photoFetcher("chinese food", 1)),
     ...(await photoFetcher("chinese food", 2)),
-    ...(await photoFetcherKorean('chinese food', 1,160)),
+    ...(await photoFetcherKorean("chinese food", 1, 160))
   ];
   var italian = [
     ...(await photoFetcher("italian food", 1)),
     ...(await photoFetcher("italian food", 2)),
-    ...(await photoFetcherKorean('italian food', 1,160)),
+    ...(await photoFetcherKorean("italian food", 1, 160))
   ];
   var burger = [
     ...(await photoFetcher("american fast food", 1)),
     ...(await photoFetcher("american fast food", 2)),
-    ...(await photoFetcherKorean('american food', 1,160)),
+    ...(await photoFetcherKorean("american food", 1, 160))
   ];
 
   var combined = [...korean, ...mexican, ...chinese, ...italian, ...burger];
@@ -166,7 +166,7 @@ var photoGenerator = async function() {
 photoGenerator()
   .then(photo => {
     return [...photo].map((item, i) => {
-      item.restaurant_id = Math.floor(i/16) + 1;
+      item.restaurant_id = Math.floor(i / 16) + 1;
       item.item_name = itemNameGenerator();
       item.description = descriptionGenerator();
       item.price = priceGenerator();
@@ -180,8 +180,8 @@ photoGenerator()
     menu.insertMany(menuData).finally(() => {
       Mongoose.connection.close();
     });
-  }).catch(e=> console.log(e)
-  );
+  })
+  .catch(e => console.log(e));
 
 // var photos = await photoGenerator();
 // var menuData = photos.map((item, i) => {
