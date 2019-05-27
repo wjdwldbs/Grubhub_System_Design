@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Menu from './Components/menu/menu.jsx'; 
-import Cart from './Components/cart/cart.jsx'
+// import Cart from './Components/cart/cart.jsx'
 import axios from 'axios'
 import path from 'path'
 
@@ -22,10 +22,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <div style={{display: 'flex'}}>
-        <Menu menuData = {this.state.menuData}></Menu>
-        <Cart></Cart>
-      </div>
+      // <div style={{display: 'flex'}}>
+      //   <Menu menuData = {this.state.menuData}></Menu>
+      //   <Cart></Cart>
+      // </div>
+      <Menu menuData = {this.state.menuData}></Menu>
     )
   }
 }
