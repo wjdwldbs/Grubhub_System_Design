@@ -5,7 +5,7 @@ import './menu.css'
 
 const Menu = (props)=>(
     <div className='menu'>
-        <h1 className ='menuTitle'>Most Popular<img className ='badge-gray' src='./badge_gray.png'></img></h1>
+        <h1 className ='menuTitle'>Most Popular<img className ='badge-gray' src='https://s3-us-west-1.amazonaws.com/calvingrubhubproject/badge_gray.png'></img></h1>
         <div className='container'>
             <PopMenuList menuData = {props.menuData.filter(menuItem=>menuItem.popular)}></PopMenuList>
         </div>

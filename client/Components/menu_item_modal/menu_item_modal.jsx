@@ -8,8 +8,25 @@ export default class MenuItemModal extends Component {
     super(props)
   
     this.state = {
-       
+       quantity: 0,
+       extraFee: 0
     }
+
+    this.quantityAdd = this.quantityAdd.bind(this);
+    this.quantityMinus = this.quantityMinus.bind(this);
+    this.extraAdd = this.extraAdd.bind(this);
+  }
+
+  quantityAdd(){
+    this.setState({quantity: this.state.quantity + 1})
+  }
+
+  quantityMinus(){
+    this.setState({quantity: this.state.quantity - 1>0? this.state.quantity - 1: 0})
+  }
+
+  extraAdd(checked, price){
+    this.setState({extraFee: checked? this.state.extraFee + price : this.state.extraFee - price}) 
   }
 
   render() {
@@ -28,9 +45,9 @@ export default class MenuItemModal extends Component {
                 <div className='modal-menu-item-description'>{this.props.data.description}</div>
                 <div className='modal-menu-item-quantity'>
                   <b>Quantity</b>
-                  <span className="tooltip">-</span>
-                  <input className="quantity-input" type="text" maxLength="2" readOnly value='0'/>
-                  <span className="tooltip">+</span>
+                  <span className="tooltip" onClick={this.quantityMinus}>-</span>
+                  <input className="quantity-input" type="text" maxLength="2" readOnly value={this.state.quantity}/>
+                  <span className="tooltip" onClick={this.quantityAdd}>+</span>
                 </div>
                 
                 <div className='modal-menu-item-options'>
@@ -38,7 +55,7 @@ export default class MenuItemModal extends Component {
                 <form>
                     {this.props.data.extras.map((x,i)=>(
                     <div key={i}>
-                    <span className="nglg_checkbox"><input type="checkbox"></input></span>Add {x.name} + ${x.price}
+                    <span className="nglg_checkbox"><input type="checkbox" onChange={(e)=>{this.extraAdd(e.target.checked, x.price);}}></input></span>Add {x.name} + ${x.price}
                     <br/></div>))}
                 </form>
                 
@@ -50,7 +67,7 @@ export default class MenuItemModal extends Component {
             </tr>
             <tr>
               <td valign="bottom">
-              <div className='bag-bar'><button className='menu-modal-button'>Add to bag: $13</button></div>
+              <div className='bag-bar'><button className='menu-modal-button'>Add to bag: ${this.props.data.price * this.state.quantity + this.state.extraFee}</button></div>
               </td>
             </tr>
           </tbody>

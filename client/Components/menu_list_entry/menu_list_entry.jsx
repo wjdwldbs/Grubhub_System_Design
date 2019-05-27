@@ -26,7 +26,7 @@ export default class MenuListEntry extends Component {
           <p className="menu-item-name">
             {this.props.data.item_name}
             {this.props.data.popular ? (
-              <img className="badge" src="./badge_white.png" />
+              <img className="badge" src="https://s3-us-west-1.amazonaws.com/calvingrubhubproject/badge_white.png" />
             ) : null}
           </p>
           <p className="menu-item-description">{this.props.data.description}</p>

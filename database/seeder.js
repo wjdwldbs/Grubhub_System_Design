@@ -95,7 +95,6 @@ function extrasGenerator() {
     });
   }
   return result;
-  // return {name: 'ng', price: 2};
 }
 
 var photoFetcher = async function(query, page) {
@@ -182,20 +181,3 @@ photoGenerator()
     });
   })
   .catch(e => console.log(e));
-
-// var photos = await photoGenerator();
-// var menuData = photos.map((item, i) => {
-//   item.restaurant_id = i + 1;
-//   item.item_name = itemNameGenerator();
-//   item.description = descriptionGenerator();
-//   item.price = priceGenerator();
-//   item.popular = booleanGenerator();
-//   item.special_instruction = booleanGenerator();
-//   item.extras = extrasGenerator();
-//   return item;
-// });
-
-// menu.create(menuData)
-// .finally(()=>{
-//     Mongoose.connection.close();
-// })
