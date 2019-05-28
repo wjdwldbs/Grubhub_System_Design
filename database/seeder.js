@@ -3,7 +3,8 @@ const Mongoose = require("mongoose");
 const menu = require("./models.js");
 const fetch = require("node-fetch");
 
-// menu.collection.drop();
+/*------------The followings are all helper functions for the main seeder function---------------------
+------------Scroll down to the bottom to see the main seeder function ;D-----------------------------*/
 
 function itemNameGenerator() {
   const storage = [
@@ -62,7 +63,7 @@ function itemNameGenerator() {
 }
 
 function descriptionGenerator() {
-  var storage = [
+  const storage = [
     `Beef koobide comes inside of baguette bread filled with our special sauce with lettuce, white and red cabbage and tomato.`,
     `Chicken kebab comes inside of baguette bread filled with our special sauce with lettuce, tomato and pickled cucumber.`,
     `Lettuce, tomato, cucumber, white and red cabbage with our special salad dressing.`,
@@ -82,13 +83,13 @@ function priceGenerator() {
 }
 
 function extrasGenerator() {
-  var itemStorage = ["rice", "fries", "coke", "Avocado", "tuna"];
-  var result = [];
+  const itemStorage = ["rice", "fries", "coke", "Avocado", "tuna"];
+  let result = [];
   function extraPriceGenerator() {
     return Math.floor(1 + Math.random() * 3);
   }
-  var length = Math.floor(Math.random() * 5);
-  for (var i = 0; i < length; i++) {
+  const length = Math.floor(Math.random() * 5);
+  for (let i = 0; i < length; i++) {
     result.push({
       name: itemStorage[Math.floor(itemStorage.length * Math.random())],
       price: extraPriceGenerator()
@@ -97,7 +98,7 @@ function extrasGenerator() {
   return result;
 }
 
-var photoFetcher = async function(query, page) {
+const photoFetcher = async function(query, page) {
   let response = await fetch(
     `https://api.pexels.com/v1/search?query=${query}&per_page=80&page=${page}`,
     {
@@ -108,12 +109,11 @@ var photoFetcher = async function(query, page) {
   return data.photos.map(x => {
     return {
       photo_URL: x.src.medium
-      //options: ["original", "large", "large2x", "medium", "small", "portrait", "landscape", "tiny"]
     };
   });
 };
 
-var photoFetcherKorean = async function(query, page, perPage) {
+const photoFetcherPixabay = async function(query, page, perPage) {
   let response = await fetch(
     `https://pixabay.com/api/?key=${
       headers.key
@@ -127,42 +127,41 @@ var photoFetcherKorean = async function(query, page, perPage) {
   });
 };
 
-var photoGenerator = async function() {
-  var korean = [
-    ...(await photoFetcherKorean("korean food", 1, 160)),
+const photoGenerator = async function() {
+  const korean = [
+    ...(await photoFetcherPixabay("korean food", 1, 160)),
     ...(await photoFetcher("asian food", 1)),
     ...(await photoFetcher("asian food", 2))
   ];
-  var mexican = [
+  const mexican = [
     ...(await photoFetcher("mexican food", 1)),
     ...(await photoFetcher("mexican food", 2)),
-    ...(await photoFetcherKorean("mexican food", 1, 160)),
-    ...(await photoFetcherKorean("taco", 1, 9))
+    ...(await photoFetcherPixabay("mexican food", 1, 160)),
+    ...(await photoFetcherPixabay("taco", 1, 9))
   ];
-  var chinese = [
+  const chinese = [
     ...(await photoFetcher("chinese food", 1)),
     ...(await photoFetcher("chinese food", 2)),
-    ...(await photoFetcherKorean("chinese food", 1, 160))
+    ...(await photoFetcherPixabay("chinese food", 1, 160))
   ];
-  var italian = [
+  const italian = [
     ...(await photoFetcher("italian food", 1)),
     ...(await photoFetcher("italian food", 2)),
-    ...(await photoFetcherKorean("italian food", 1, 160))
+    ...(await photoFetcherPixabay("italian food", 1, 160))
   ];
-  var burger = [
+  const burger = [
     ...(await photoFetcher("american fast food", 1)),
     ...(await photoFetcher("american fast food", 2)),
-    ...(await photoFetcherKorean("american food", 1, 160))
+    ...(await photoFetcherPixabay("american food", 1, 160))
   ];
 
-  var combined = [...korean, ...mexican, ...chinese, ...italian, ...burger];
+  const combined = [...korean, ...mexican, ...chinese, ...italian, ...burger];
   return combined;
 };
 
-
+//-----------------------------MAIN SEEDER FUNCTION-----------------------------------
 
 const seeder = function(){
-  menu.collection.drop();
   photoGenerator()
     .then(photo => {
       return [...photo].map((item, i) => {
@@ -177,6 +176,7 @@ const seeder = function(){
       });
     })
     .then(menuData => {
+      menu.collection.drop();
       menu.insertMany(menuData).finally(() => {
         Mongoose.connection.close();
       });
