@@ -1,11 +1,6 @@
 var mongoose = require("mongoose");
 var db = require("./index");
 
-// var extrasSchema = new mongoose.Schema({
-//     name: String,
-//     price: Number
-// })
-
 var menuSchema = new mongoose.Schema({
   item_name: String,
   description: String,

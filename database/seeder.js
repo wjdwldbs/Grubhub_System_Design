@@ -1,4 +1,4 @@
-const headers = require("./api_header");
+// const headers = require("./api_header");
 const Mongoose = require("mongoose");
 const menu = require("./models.js");
 const fetch = require("node-fetch");
@@ -102,7 +102,9 @@ const photoFetcher = async function(query, page) {
   let response = await fetch(
     `https://api.pexels.com/v1/search?query=${query}&per_page=80&page=${page}`,
     {
-      headers: headers.headers
+      headers: {
+        Authorization: process.env.AUTHORIZATION
+      }
     }
   );
   let data = await response.json();
@@ -116,7 +118,7 @@ const photoFetcher = async function(query, page) {
 const photoFetcherPixabay = async function(query, page, perPage) {
   let response = await fetch(
     `https://pixabay.com/api/?key=${
-      headers.key
+      process.env.KEY
     }&q=${query}&per_page=${perPage}&page=${page}`
   );
   let data = await response.json();

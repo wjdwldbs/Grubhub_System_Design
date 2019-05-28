@@ -1,3 +1,5 @@
 node_modules
 database/api_header.js
 /coverage
+.env
+database/atlas_password.js

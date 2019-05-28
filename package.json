@@ -9,8 +9,9 @@
   },
   "scripts": {
     "react-build": "webpack -w -d",
-    "seeder": "node ./database/seeder.js",
-    "start": "nodemon ./server/index.js",
+    "seeder-calvin": "env-cmd node ./database/seeder.js",
+    "start-calvin": "env-cmd node ./server/index.js",
+    "start":"node ./server/index.js",
     "test": "jest --watchAll --coverage",
     "test:w": "jest --watchAll",
     "test:c": "jest --coverage"
@@ -33,6 +34,7 @@
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^2.1.1",
+    "env-cmd": "^9.0.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.2",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
@@ -57,5 +59,8 @@
       "@babel/preset-env",
       "@babel/preset-react"
     ]
+  },
+  "engine": {
+    "node": "10.15.3"
   }
 }
