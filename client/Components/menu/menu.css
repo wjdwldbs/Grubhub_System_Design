@@ -7,7 +7,9 @@
     display: flex;
     flex-wrap: wrap;
     margin: 0 6.67%;
-    width: 86.67%;
+    /* width: 86.67%; */
+    margin-left: 72px;
+    margin-right: 72px;
   }
   
   .container > div {
@@ -20,10 +22,12 @@
     font-family: 'Roboto',sans-serif; 
     font-weight: 700;
     box-sizing: border-box;
-    width: 86.67%;
-    margin: 2% 6.67%;
+    /* width: 86.67%; */
+    margin: 2%;
     padding-top: 2%;
     font-size: 22px;
+    margin-left: 72px;
+    margin-right: 72px;
 }
 
 .badge-gray{
