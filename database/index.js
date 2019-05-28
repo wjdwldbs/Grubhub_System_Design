@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/menu', {useNewUrlParser: true});
-
+const mongoose = require('mongoose');
+const password = require('./atlas_password.js');
+mongoose.connect(`mongodb+srv://hackreactortest:${password}@cluster0-k0vmg.mongodb.net/test?retryWrites=true`, {useNewUrlParser: true});
+// mongodb://localhost/menu   if you want to seed locally
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));

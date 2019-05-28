@@ -4,10 +4,13 @@ const port = process.env.PORT||3100
 // const routers = require('./routers.js')
 const path = require('path')
 const menus = require('../database/models.js')
-var cors = require('cors')
+const cors = require('cors')
+const CronJob = require('cron').CronJob;
+// const tester = require('../database/seeder.js')
+
 
 //require middleware
-var morgan = require("morgan")
+const morgan = require("morgan")
 
 //use middleware
 app.use(cors())
@@ -30,5 +33,9 @@ app.get('/api/data/:id', (req, res) => {
         console.log('error in get menus!!', err)
     })
 })
+
+//cron task (this runs the seeder every midnight at 1am)
+// new CronJob('* * * * * *', tester, null, true, 'America/Los_Angeles');
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

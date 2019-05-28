@@ -1,15 +1,15 @@
-var headers = require("./api_header");
-var Mongoose = require("mongoose");
-var menu = require("./models.js");
+const headers = require("./api_header");
+const Mongoose = require("mongoose");
+const menu = require("./models.js");
 const fetch = require("node-fetch");
 
-menu.collection.drop();
+// menu.collection.drop();
 
 function itemNameGenerator() {
-  var storage = [
+  const storage = [
     "Slow Cooker Coq au Vin",
     "Golden Beet & Beet Greens Pasta",
-    "Faggots with onion gravy",
+    "Meatballs with onion gravy",
     "Beef Curry",
     "Super Mom Stir Fry",
     "Almond-Thyme-Crusted Mahi Mahi",
@@ -159,25 +159,29 @@ var photoGenerator = async function() {
   return combined;
 };
 
-//800 data in here
-//[{photo_URL: "https://images.pexels.com/photos/2232/vegetables-italian-pizza-restaurant.jpg"}, ....... ]
 
-photoGenerator()
-  .then(photo => {
-    return [...photo].map((item, i) => {
-      item.restaurant_id = Math.floor(i / 16) + 1;
-      item.item_name = itemNameGenerator();
-      item.description = descriptionGenerator();
-      item.price = priceGenerator();
-      item.popular = booleanGenerator() && booleanGenerator();
-      item.special_instruction = booleanGenerator();
-      item.extras = extrasGenerator();
-      return item;
-    });
-  })
-  .then(menuData => {
-    menu.insertMany(menuData).finally(() => {
-      Mongoose.connection.close();
-    });
-  })
-  .catch(e => console.log(e));
+
+const seeder = function(){
+  menu.collection.drop();
+  photoGenerator()
+    .then(photo => {
+      return [...photo].map((item, i) => {
+        item.restaurant_id = Math.floor(i / 16) + 1;
+        item.item_name = itemNameGenerator();
+        item.description = descriptionGenerator();
+        item.price = priceGenerator();
+        item.popular = booleanGenerator() && booleanGenerator();
+        item.special_instruction = booleanGenerator();
+        item.extras = extrasGenerator();
+        return item;
+      });
+    })
+    .then(menuData => {
+      menu.insertMany(menuData).finally(() => {
+        Mongoose.connection.close();
+      });
+    })
+    .catch(e => console.log(e));  
+}
+
+seeder();

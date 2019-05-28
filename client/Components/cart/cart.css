@@ -2,12 +2,15 @@
     width: 25%;
     /* float: right; */
     top: 0;
+    padding-top: 60px;
     position: fixed;
     background-color: #FFFFFF;
     font-size: 20px;
     height: 700px;
-    box-shadow: -3px 0px 6px 1px #aaaaaa;
-    right: 0
+    box-shadow: rgba(67, 41, 163, 0.1) 0px 0px 0px 1px,
+    rgba(67, 41, 163, 0.1) 0px 1px 8px 0px;
+    right: 0;
+    z-index: 960;
 }
 
 .cart-pic{
@@ -16,5 +19,10 @@
     margin-right: auto;
     width: 63%;
     top: 10px;
-    margin-top:8%
+    /* margin-top:8%; */
+    margin-top: 30px;
+}
+
+#menu-root {
+    overflow: hidden;
 }
