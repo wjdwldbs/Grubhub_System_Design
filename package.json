@@ -11,7 +11,7 @@
     "react-build": "webpack -w -d",
     "seeder-calvin": "env-cmd node ./database/seeder.js",
     "start-calvin": "env-cmd node ./server/index.js",
-    "start":"node ./server/index.js",
+    "start": "node ./server/index.js",
     "test": "jest --watchAll --coverage",
     "test:w": "jest --watchAll",
     "test:c": "jest --coverage"
