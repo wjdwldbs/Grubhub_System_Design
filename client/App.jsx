@@ -15,7 +15,7 @@ export default class App extends Component {
 
   componentDidMount(){
       let id = window.location.href.split("id=")[1] 
-      axios.get(`http://localhost:3100/api/data/${id}`)
+      axios.get(`https://obscure-garden-72753.herokuapp.com/api/data/${id}`)
       .then(result => this.setState({menuData: result.data}))
       .catch(err=> console.log('error getting menuData!!', err))
   }

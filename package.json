@@ -14,7 +14,8 @@
     "start": "node ./server/index.js",
     "test": "jest --watchAll --coverage",
     "test:w": "jest --watchAll",
-    "test:c": "jest --coverage"
+    "test:c": "jest --coverage",
+    "build": "webpack -p"
   },
   "dependencies": {
     "axios": "^0.18.0",
