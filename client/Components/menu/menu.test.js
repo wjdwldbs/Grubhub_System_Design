@@ -18,6 +18,8 @@ describe('testing Menu component', ()=> {
 		expect(wrapper.find('#menuTitle2').text()).toEqual('Full Menu')
 	})
 
+
+
 	//snapshot testing by Jest
 	// it('should grab a snapshot of the component.', ()=> {
 	// 	const component = renderer.create(<App />)

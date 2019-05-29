@@ -44,10 +44,10 @@ export default class MenuItemModal extends Component {
                 </div>
                 <div className='modal-menu-item-description'>{this.props.data.description}</div>
                 <div className='modal-menu-item-quantity'>
-                  <b>Quantity</b>
+                  <b id = 'quantityTitle'>Quantity</b>
                   <span className="tooltip" onClick={this.quantityMinus}>-</span>
                   <input className="quantity-input" type="text" maxLength="2" readOnly value={this.state.quantity}/>
-                  <span className="tooltip" onClick={this.quantityAdd}>+</span>
+                  <span className="tooltip" id="addTest" onClick={this.quantityAdd}>+</span>
                 </div>
                 
                 <div className='modal-menu-item-options'>
@@ -55,7 +55,7 @@ export default class MenuItemModal extends Component {
                 <form>
                     {this.props.data.extras.map((x,i)=>(
                     <div key={i}>
-                    <span className="nglg_checkbox"><input type="checkbox" onChange={(e)=>{this.extraAdd(e.target.checked, x.price);}}></input></span>Add {x.name} + ${x.price}
+                    <span className="nglg_checkbox"><input type="checkbox" id={`checkboxTest${i}`} onChange={(e)=>{this.extraAdd(e.target.checked, x.price);}}></input></span>Add {x.name} + ${x.price}
                     <br/></div>))}
                 </form>
                 
