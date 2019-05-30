@@ -37,7 +37,7 @@ export default class MenuItemModal extends Component {
                           <table className="menu-modal-container">
           <tbody>
             <tr>
-              <td valign="top">
+              <td valign="top" id="modal-row">
               <div className='modal-menu-item' style={{backgroundImage: `url(${this.props.data.photo_URL})`}}>
             <p className='modal-menu-item-content'>{this.props.data.item_name}<br />${this.props.data.price}</p>
               <div className='modal-close' onClick={this.props.onClose}>&times;</div>

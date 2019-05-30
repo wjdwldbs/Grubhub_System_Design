@@ -178,3 +178,9 @@ table {
         background: #fff;
         cursor: default 
 }
+
+td#modal-row {
+    display: block;
+    width: 99.9%;
+    clear: both;
+}
