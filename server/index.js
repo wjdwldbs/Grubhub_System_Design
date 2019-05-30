@@ -5,6 +5,7 @@ const port = process.env.PORT||3100
 const path = require('path')
 const menus = require('../database/models.js')
 const cors = require('cors')
+var expressStaticGzip = require('express-static-gzip');
 const CronJob = require('cron').CronJob;
 // const tester = require('../database/seeder.js')
 
@@ -20,7 +21,10 @@ app.use(morgan('dev'))
 
 
 //serve the client
-app.use('/restaurants/menu_cart/',express.static(path.join(__dirname, '../public')))
+app.use('/restaurants/menu_cart', expressStaticGzip(path.join(__dirname, '../public'), {
+    enableBrotli: true,
+    orderPreference: ['br', 'gz']
+ }))
 
 //set up router
 // app.use('/api', routers)
