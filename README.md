@@ -5,7 +5,7 @@
 
 Tested by Jest in CircleCI
 
-![](test.png)
+![](test1.png)
 
 ### Related Projects
 
