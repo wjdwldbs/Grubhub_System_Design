@@ -1,6 +1,6 @@
 /* 
 
-the following data were fetched from https://menu-cart.herokuapp.com/api/data/1 using a get request
+the following data were fetched from https://menu-cart.herokuapp.com/api/data/1 using a GET request
 
 */
 const data = [
