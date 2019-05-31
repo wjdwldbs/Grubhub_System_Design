@@ -4,7 +4,8 @@
 ## grubhub-menu-cart
 
 Tested by Jest in CircleCI
-![](Screen Shot 2019-05-30 at 10.12.26 AM.png)
+
+![](test.png)
 
 ### Related Projects
 
