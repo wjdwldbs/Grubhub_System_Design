@@ -12,14 +12,20 @@ export default class App extends Component {
       menuData : []
     };
   }
-
+  ///restaurants/menu_cart
+  // https://menu-cart.herokuapp.com/api/data/${id}
   componentDidMount(){
-      let id = window.location.href.split("id=")[1] 
-      axios.get(`https://menu-cart.herokuapp.com/api/data/${id}`)
-      .then(result => this.setState({menuData: result.data}))
+    console.log(new Date().getMilliseconds())
+      //let id = window.location.href.split("id=")[1] 
+      var id = Math.floor(Math.random() * (500000)) + 1;
+      axios.get(`/api/menu/${id}`)
+      .then(result => {
+        this.setState({menuData: result.data})
+        console.log(new Date().getMilliseconds())
+      })
       .catch(err=> console.log('error getting menuData!!', err))
   }
-
+  
   render() {
     return (
       // <div style={{display: 'flex'}}>

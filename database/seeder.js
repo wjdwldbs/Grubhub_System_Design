@@ -2,9 +2,13 @@
 const Mongoose = require("mongoose");
 const menu = require("./models.js");
 const fetch = require("node-fetch");
+const request = require('request');
+const fs = require('fs');
 
 /*------------The followings are all helper functions for the main seeder function---------------------
 ------------Scroll down to the bottom to see the main seeder function ;D-----------------------------*/
+
+
 
 function itemNameGenerator() {
   const storage = [
@@ -98,92 +102,100 @@ function extrasGenerator() {
   return result;
 }
 
-const photoFetcher = async function(query, page) {
-  let response = await fetch(
-    `https://api.pexels.com/v1/search?query=${query}&per_page=80&page=${page}`,
-    {
-      headers: {
-        Authorization: process.env.AUTHORIZATION
-      }
+let photoFetcherPixabay = (query, page, perPage, callback) => {
+  let apikey = '14107210-094ef13c435ce5635482272e3'
+  let options = {
+    method: 'GET',
+    url: `https://pixabay.com/api/?key=${apikey}&q=${query}&per_page=${perPage}&page=${page}`
+  }
+  request(options, (error, response, body) => {
+    if (error) {
+      console.log(`Unsuccessful API requst: ${error}`);
+      callback(error, null);
+    } else {
+      console.log('SUCCESSFUL API REQUEST!');
+      callback(null, body);
     }
-  );
-  let data = await response.json();
-  return data.photos.map(x => {
-    return {
-      photo_URL: x.src.medium
-    };
-  });
-};
-
-const photoFetcherPixabay = async function(query, page, perPage) {
-  let response = await fetch(
-    `https://pixabay.com/api/?key=${
-      process.env.KEY
-    }&q=${query}&per_page=${perPage}&page=${page}`
-  );
-  let data = await response.json();
-  return data.hits.map(x => {
-    return {
-      photo_URL: x.webformatURL
-    };
-  });
-};
-
-const photoGenerator = async function() {
-  const korean = [
-    ...(await photoFetcherPixabay("korean food", 1, 160)),
-    ...(await photoFetcher("asian food", 1)),
-    ...(await photoFetcher("asian food", 2))
-  ];
-  const mexican = [
-    ...(await photoFetcher("mexican food", 1)),
-    ...(await photoFetcher("mexican food", 2)),
-    ...(await photoFetcherPixabay("mexican food", 1, 160)),
-    ...(await photoFetcherPixabay("taco", 1, 9))
-  ];
-  const chinese = [
-    ...(await photoFetcher("chinese food", 1)),
-    ...(await photoFetcher("chinese food", 2)),
-    ...(await photoFetcherPixabay("chinese food", 1, 160))
-  ];
-  const italian = [
-    ...(await photoFetcher("italian food", 1)),
-    ...(await photoFetcher("italian food", 2)),
-    ...(await photoFetcherPixabay("italian food", 1, 160))
-  ];
-  const burger = [
-    ...(await photoFetcher("american fast food", 1)),
-    ...(await photoFetcher("american fast food", 2)),
-    ...(await photoFetcherPixabay("american food", 1, 160))
-  ];
-
-  const combined = [...korean, ...mexican, ...chinese, ...italian, ...burger];
-  return combined;
-};
-
-//-----------------------------MAIN SEEDER FUNCTION-----------------------------------
-
-const seeder = function(){
-  photoGenerator()
-    .then(photo => {
-      return [...photo].map((item, i) => {
-        item.restaurant_id = Math.floor(i / 16) + 1;
-        item.item_name = itemNameGenerator();
-        item.description = descriptionGenerator();
-        item.price = priceGenerator();
-        item.popular = booleanGenerator() && booleanGenerator();
-        item.special_instruction = booleanGenerator();
-        item.extras = extrasGenerator();
-        return item;
-      });
-    })
-    .then(menuData => {
-      menu.collection.drop();
-      menu.insertMany(menuData).finally(() => {
-        Mongoose.connection.close();
-      });
-    })
-    .catch(e => console.log(e));  
+  })
 }
 
-seeder();
+var photos = [];
+var seededMenu = [];
+
+(function foodphoto() {
+  photoFetcherPixabay("american food", 1, 200, (err, results) => {
+    if (err) {
+      console.log(`getphoto request was unsuccessful, ${err}`);
+    } else {
+      const parsed = JSON.parse(results)
+
+      for (var i = 0; i < parsed.hits.length; i++) {
+        photos.push(parsed.hits[i].webformatURL)
+      }
+
+      for (var k = 0; k < 10000000; k++) {
+        seededMenu.push({
+          item_id: k + 1,
+          restaurant_id: Math.floor(Math.random() * 500000) + 1,
+          item_name: itemNameGenerator(),
+          food_photo: photos[Math.floor(Math.random() * ((photos.length - 1) + 1))],
+          description: descriptionGenerator(),
+          price: priceGenerator(),
+          popular: booleanGenerator() && booleanGenerator(),
+          special_instruction: booleanGenerator(),
+          extras: extrasGenerator()
+        })
+      }
+
+      var file = fs.createWriteStream('data.json');
+      let y = 0;
+      console.log(new Date())
+      function write() {
+        let ok = true;
+        do {
+          y++;
+
+          if (y === 10000000) {
+            // Last time!
+            file.write(JSON.stringify(seededMenu[10000]), 'utf-8');
+            file.write(']', 'utf-8', () => file.end());
+            console.log(`finished!`)
+            console.log(new Date())
+
+          } else {
+            // See if we should continue, or wait.
+            // Don't pass the callback, because we're not done yet.
+            if (y === 1) {
+
+              ok = file.write(`[${JSON.stringify(seededMenu[y])},`, 'utf-8');
+            } else {
+              //console.log(k)
+              ok = file.write(`${JSON.stringify(seededMenu[y])},`, 'utf-8');
+            }
+
+          }
+        } while (y < 10000000 && ok);
+        if (y > 0) {
+          // Had to stop early!
+          // Write some more once it drains.
+          file.once('drain', write);
+        }
+      }
+      write();
+
+      // writeTenMillionTimes(file, seededMenu, () => {
+      //   file.end()
+      // })
+
+
+
+      // menu.insertMany(seededMenu)
+      // .then((result) => console.log(`total number of entries: `))
+      // .catch((err) => console.log(`Failed to insert documents: ${err}`))
+
+    }
+  })
+
+
+})();
+
