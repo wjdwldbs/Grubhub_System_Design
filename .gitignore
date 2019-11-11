@@ -5,3 +5,5 @@ database/api_header.js
 database/atlas_password.js
 webpack-stats.json
 database/data.json
+database_pg/extraItems.csv
+database_pg/menuItems.csv
