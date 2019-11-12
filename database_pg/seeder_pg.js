@@ -1,6 +1,8 @@
 const fs = require('fs');
 const request = require('request');
+const apikey = require('../api.js');
 var csvWriter = require('csv-write-stream')
+
 
 function itemNameGenerator() {
   const storage = [
@@ -79,7 +81,6 @@ function priceGenerator() {
 }
 
 let photoFetcherPixabay = (query, page, perPage, callback) => {
-  let apikey = '14107210-094ef13c435ce5635482272e3'
   let options = {
     method: 'GET',
     url: `https://pixabay.com/api/?key=${apikey}&q=${query}&per_page=${perPage}&page=${page}`

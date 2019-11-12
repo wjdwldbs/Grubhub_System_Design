@@ -4,6 +4,7 @@ const menu = require("./models.js");
 const fetch = require("node-fetch");
 const request = require('request');
 const fs = require('fs');
+const apikey = require('../api.js');
 
 /*------------The followings are all helper functions for the main seeder function---------------------
 ------------Scroll down to the bottom to see the main seeder function ;D-----------------------------*/
@@ -103,7 +104,6 @@ function extrasGenerator() {
 }
 
 let photoFetcherPixabay = (query, page, perPage, callback) => {
-  let apikey = '14107210-094ef13c435ce5635482272e3'
   let options = {
     method: 'GET',
     url: `https://pixabay.com/api/?key=${apikey}&q=${query}&per_page=${perPage}&page=${page}`

@@ -1,5 +1,10 @@
--- psql -U postgres -d menu -f schema.sql
+-- psql -U postgres -d template1 -f schema.sql
 -- /Users/jiyoon_jung/Developer/System_Design_Capstone/menu-cart/database_pg/menuItems.csv
+-- sudo su - postgres
+-- psql
+-- /home/ubuntu/Jiyoon-Service-Menu/database_pg/extraItems.csv & menuItems.csv 
+-- COPY menu_item(id, restaurant_id, food_photo, description, price, popular, special_instruction) FROM '/home/ubuntu/Jiyoon-Service-Menu/database_pg/menuItems.csv' DELIMITER ',' CSV HEADER;
+
 DROP DATABASE IF EXISTS menu;
 CREATE DATABASE menu;
 \c menu;

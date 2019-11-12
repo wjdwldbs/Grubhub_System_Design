@@ -7,3 +7,5 @@ webpack-stats.json
 database/data.json
 database_pg/extraItems.csv
 database_pg/menuItems.csv
+SDCproject.pem
+api.js
