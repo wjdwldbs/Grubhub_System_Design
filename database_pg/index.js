@@ -3,7 +3,8 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'menu',
-  max: 20
+  max: 30
+  
 })
 
 pool.connect((err, client, release) => {

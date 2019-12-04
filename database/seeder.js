@@ -1,7 +1,3 @@
-// const headers = require("./api_header");
-const Mongoose = require("mongoose");
-const menu = require("./models.js");
-const fetch = require("node-fetch");
 const request = require('request');
 const fs = require('fs');
 const apikey = require('../api.js');
@@ -12,7 +8,7 @@ const apikey = require('../api.js');
 
 
 function itemNameGenerator() {
-  const storage = [
+  var storage = [
     "Slow Cooker Coq au Vin",
     "Golden Beet & Beet Greens Pasta",
     "Meatballs with onion gravy",
@@ -68,7 +64,7 @@ function itemNameGenerator() {
 }
 
 function descriptionGenerator() {
-  const storage = [
+  var storage = [
     `Beef koobide comes inside of baguette bread filled with our special sauce with lettuce, white and red cabbage and tomato.`,
     `Chicken kebab comes inside of baguette bread filled with our special sauce with lettuce, tomato and pickled cucumber.`,
     `Lettuce, tomato, cucumber, white and red cabbage with our special salad dressing.`,
@@ -93,8 +89,8 @@ function extrasGenerator() {
   function extraPriceGenerator() {
     return Math.floor(1 + Math.random() * 3);
   }
-  const length = Math.floor(Math.random() * 5);
-  for (let i = 0; i < length; i++) {
+  const num = Math.floor(Math.random() * 5);
+  for (let i = 0; i < num; i++) {
     result.push({
       name: itemStorage[Math.floor(itemStorage.length * Math.random())],
       price: extraPriceGenerator()
@@ -123,20 +119,20 @@ var photos = [];
 var seededMenu = [];
 
 (function foodphoto() {
+
   photoFetcherPixabay("american food", 1, 200, (err, results) => {
     if (err) {
       console.log(`getphoto request was unsuccessful, ${err}`);
     } else {
       const parsed = JSON.parse(results)
-
       for (var i = 0; i < parsed.hits.length; i++) {
-        photos.push(parsed.hits[i].webformatURL)
+        photos.push(parsed.hits[i].webformatURL)  
       }
 
       for (var k = 0; k < 10000000; k++) {
         seededMenu.push({
           item_id: k + 1,
-          restaurant_id: Math.floor(Math.random() * 500000) + 1,
+          restaurant_id: Math.floor(k / 16) + 1,
           item_name: itemNameGenerator(),
           food_photo: photos[Math.floor(Math.random() * ((photos.length - 1) + 1))],
           description: descriptionGenerator(),
@@ -147,52 +143,36 @@ var seededMenu = [];
         })
       }
 
-      var file = fs.createWriteStream('data.json');
-      let y = 0;
+      //console.log(seededMenu[10000000])
+
+      var file = fs.createWriteStream('menuData.json');
+      let y = -1;
       console.log(new Date())
       function write() {
         let ok = true;
+        
         do {
           y++;
-
-          if (y === 10000000) {
+          if (y === 9999999) {
             // Last time!
-            file.write(JSON.stringify(seededMenu[10000000]), 'utf-8');
-            file.write(']', 'utf-8', () => file.end());
+            file.write(`${JSON.stringify(seededMenu[y])}]`, 'utf-8', () => file.end());
             console.log(`finished!`)
             console.log(new Date())
 
           } else {
-            // See if we should continue, or wait.
-            // Don't pass the callback, because we're not done yet.
-            if (y === 1) {
-
+            if (y === 0) {
               ok = file.write(`[${JSON.stringify(seededMenu[y])},`, 'utf-8');
-            } else {
-              //console.log(k)
+            } else { 
               ok = file.write(`${JSON.stringify(seededMenu[y])},`, 'utf-8');
             }
 
           }
-        } while (y < 10000000 && ok);
+        } while (y < 9999999 && ok);
         if (y > 0) {
-          // Had to stop early!
-          // Write some more once it drains.
           file.once('drain', write);
         }
       }
       write();
-
-      // writeTenMillionTimes(file, seededMenu, () => {
-      //   file.end()
-      // })
-
-
-
-      // menu.insertMany(seededMenu)
-      // .then((result) => console.log(`total number of entries: `))
-      // .catch((err) => console.log(`Failed to insert documents: ${err}`))
-
     }
   })
 

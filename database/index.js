@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 // const password = require('./atlas_password.js');
 mongoose.connect('mongodb://localhost/menu', {poolSize: 20});
+// , {poolSize: 20}
 // mongodb://localhost/menu   if you want to seed locally
 var db = mongoose.connection;
 

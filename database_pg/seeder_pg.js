@@ -97,9 +97,9 @@ let photoFetcherPixabay = (query, page, perPage, callback) => {
 }
 
 function extrasGenerator() {
-  const itemStorage = ["Rice", "Fries", "Coke", "avocado", "Tuna", "Salad", "Coleslaw", "Bread", "Beans"];
-  return itemStorage[Math.floor(itemStorage.length * Math.random())];
-
+  const itemStorage = ["rice", "fries", "coke", "Avocado", "tuna"];
+  const item = itemStorage[Math.floor((itemStorage.length + 1) * Math.random())];
+  return item === 5 ? null : itemStorage[item];
 }
 
 function extraPriceGenerator() {
@@ -107,8 +107,6 @@ function extraPriceGenerator() {
 }
 
 var photos = [];
-
-
 
 (function foodphoto() {
   photoFetcherPixabay("american food", 1, 200, (err, results) => {
@@ -124,20 +122,20 @@ var photos = [];
       var menuFile = csvWriter({ headers: ['id', 'restaurant_id', 'food_photo', 'description', 'price', 'popular', 'special_instruction'] })
       menuFile.pipe(fs.createWriteStream('menuItems.csv'));
      
-      let itemNumber = 0;
+      let itemNumber = -1;
       console.log(new Date())
       function write(){
         let ok = true;
         do {
           itemNumber++;
-          var restaurant_id = Math.floor(Math.random() * 500000) + 1;
+          var restaurant_id =  Math.floor(itemNumber / 16) + 1;
           var food_photo = photos[Math.floor(Math.random() * ((photos.length - 1) + 1))];
           var description = descriptionGenerator();
           var price = priceGenerator();
           var popular = booleanGenerator() && booleanGenerator();
           var special_instruction = booleanGenerator();
         
-          if (itemNumber === 10000000) {
+          if (itemNumber === 9999999) {
             menuFile.write([itemNumber, restaurant_id, food_photo, description, price, popular, special_instruction], 
             'utf8', () => menuFile.end());
             console.log(`finished seeding menu items!`)
@@ -145,7 +143,7 @@ var photos = [];
           } else {
             ok = menuFile.write([itemNumber, restaurant_id, food_photo, description, price, popular, special_instruction], 'utf8');
           }
-        } while (itemNumber < 10000000 && ok);
+        } while (itemNumber < 9999999 && ok);
         if (itemNumber > 0) {
           menuFile.once('drain', write);
         }
@@ -168,8 +166,8 @@ function writeExtra(){
   do {
     extraNumber++;
     var extra_name = extrasGenerator();
-    var extra_price = extraPriceGenerator();
-    var restaurant_id = Math.floor(Math.random() * 500000) + 1;
+    var extra_price = extra_name === null ? null : extraPriceGenerator();
+    var restaurant_id = Math.floor(Math.random() * (625000 - 562500 + 1)) + 562500;;
     var dish_id = Math.floor(Math.random() * 10000000) + 1;
     
     if (extraNumber === 30000000) {

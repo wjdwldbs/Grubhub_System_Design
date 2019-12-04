@@ -62,16 +62,23 @@ app.use(expressStaticGzip(path.join(__dirname, '../public'), {
 
 app.get(`/api/menu`, ({params}, res) => {
     var randomid = Math.floor(Math.random() * (500000 - 450000 + 1)) + 450000;
-    var q = `select * from menu_item join extra_item on 
-    menu_item.id=extra_item.dish_id where menu_item.restaurant_id=${randomid};`
+    //var entries = Math.floor(Math.random() * (20 - 5 + 1)) + 10 || 1;
+    // var q = `select menu_item.id, menu_item.restaurant_id, menu_item.food_photo, 
+    // menu_item.description, menu_item.price, menu_item.popular, menu_item.special_instruction, 
+    // extra_item.extra_name, extra_item.extra_price from menu_item inner join extra_item on 
+    // menu_item.restaurant_id=extra_item.restaurant_id where menu_item.restaurant_id=${params.id};`
+    var q = `select * from menu_item join extra_item on menu_item.id=extra_item.dish_id where menu_item.restaurant_id=${randomid};`
+    // var q = `select * from menu_item where restaurant_id=${randomid};`
     // var q = `select menu_item.id, menu_item.restaurant_id, menu_item.food_photo, 
     // menu_item.description, menu_item.price, menu_item.popular, menu_item.special_instruction, 
     // extra_item.extra_name, extra_item.extra_price from menu_item join extra_item on 
     // menu_item.id=extra_item.dish_id where menu_item.restaurant_id=${450000};`
     pool.query(q, (err, results) => {
         if (err){
+            console.log(err);
             res.status(404).send(`unsuccessful get request ${err}`);
         } else {
+            //console.log(results.rows.length)
             res.status(200).send(results.rows);
         }
     })

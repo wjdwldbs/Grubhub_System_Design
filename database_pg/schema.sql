@@ -4,6 +4,10 @@
 -- psql
 -- /home/ubuntu/Jiyoon-Service-Menu/database_pg/extraItems.csv & menuItems.csv 
 -- COPY menu_item(id, restaurant_id, food_photo, description, price, popular, special_instruction) FROM '/home/ubuntu/Jiyoon-Service-Menu/database_pg/menuItems.csv' DELIMITER ',' CSV HEADER;
+--sudo mongoimport --jsonArray --db menu --collection menus --file menuItems.json
+
+--sudo service mongod restart
+--mongo
 
 DROP DATABASE IF EXISTS menu;
 CREATE DATABASE menu;
