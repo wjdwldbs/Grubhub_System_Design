@@ -9,25 +9,16 @@ const db = require('../database/index.js')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-///restaurants/menu_cart, expressStaticGzip(path.join(__dirname, '../public'
-//serve the client
 app.use(expressStaticGzip(path.join(__dirname, '../public'), {
     enableBrotli: true,
     orderPreference: ['br', 'gz']
  }))
 
-//set up router
-// app.use('/api', routers)
-
-app.get('/api/menu', (req, res) => {
-    const randomid = Math.floor(Math.random() * (625000 - 562500 + 1)) + 562500;
-    menus.find({ restaurant_id: randomid })
+app.get('/api/menu/:id', ({params}, res) => {
+    menus.find({ restaurant_id: params.id })
         .then((data) => res.status(200).send(data))
-        .catch((err)=> res.status(404).send(`get menu request failed ${err}`))
+        .catch((err)=> res.status(404).send(`GET menu request failed ${err}`))
 })
-
-//cron task (this runs the seeder every midnight at 1am)
-// new CronJob('* * * * * *', tester, null, true, 'America/Los_Angeles');
 
 app.get('/', (req, res) => {
     client.query('SELECT NOW()', (err, results) => {
@@ -35,6 +26,5 @@ app.get('/', (req, res) => {
         client.end()
       })
 })
-
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))

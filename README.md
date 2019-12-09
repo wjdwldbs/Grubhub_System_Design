@@ -1,30 +1,14 @@
-# FEC Service Server (Calvin)
-> deployed web site: https://grubhub-mock-calvin.herokuapp.com/?id=1
+# Grubhub System Design
 
-## grubhub-menu-cart
+> System design and DBMS optimization of Grubhub menu page front-end mock-up
 
-Tested by Jest in CircleCI
+* Inherited front-end codebase to optimize the back-end
+  * Seeded 10 million records and benchmarked query times
+    * Optimized query times for a RDBMS (PostgresSQL) and NoSQL DBMS (MongoDB) by utilizing connection pooling and B-tree indexing
+    * MongoDB yielded better results under high traffic
+  * Horizontally scaled out on AWS EC2 micro-service instances and utilized Nginx load balancer (Round Robin technique)
 
-![](test1.png)
-
-### Related Projects
-
-* [Nav, About sections](https://github.com/hrla29-group-targaryen/nav-about)
-* [time-sponsored](https://github.com/hrla29-group-targaryen/time-sponsored)
-* [Review, Footer sections](https://github.com/hrla29-group-targaryen/reviews)
-
-#### Usage
-
-```
-git clone https://github.com/hrla29-group-targaryen/time-sponsored.git
-cd menu-cart
-npm install
-npm start-calvin
-```
-
-#### Requirements
-
-install Nodejs.
+**Result: 4,440 request per second with 0% error rate**
 
 #### Development
 

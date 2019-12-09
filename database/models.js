@@ -21,6 +21,7 @@ var menuSchema = new mongoose.Schema({
   }
 });
 
+menuSchema.index({restaurant_id: 1})
 var menu = mongoose.model("menu", menuSchema);
 
 module.exports = menu;

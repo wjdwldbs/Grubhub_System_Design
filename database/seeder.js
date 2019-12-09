@@ -5,8 +5,6 @@ const apikey = require('../api.js');
 /*------------The followings are all helper functions for the main seeder function---------------------
 ------------Scroll down to the bottom to see the main seeder function ;D-----------------------------*/
 
-
-
 function itemNameGenerator() {
   var storage = [
     "Slow Cooker Coq au Vin",
