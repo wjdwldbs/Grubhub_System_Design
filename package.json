@@ -14,6 +14,7 @@
     "test": "jest --coverage",
     "test-calvin": "jest --coverage --watchAll",
     "build": "webpack -p",
+    "write": "mongoimport --jsonArray --db menu --collection menus --file database/menuData.json",
     "analyze-build": "webpack --profile --json > webpack-stats.json"
   },
   "dependencies": {
