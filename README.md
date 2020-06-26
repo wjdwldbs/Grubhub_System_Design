@@ -1,18 +1,12 @@
 # Grubhub System Design
 
-> System design and DBMS optimization of Grubhub menu page front-end mock-up
+> Inherited a front-end replica of www.grubhub.com menu page to construct and optimize a system design. The optimized system design generates and seeds 10 million database records under 10 minutes, and returns a query response in 2 ms. When horizontally scaled out to three EC2 instances with Nginx load balancer (Round Robin technique), it achieves a throughput of 4,440 RPS with 0% error rate and latency of 71 ms.
 
-* Inherited front-end codebase to optimize the back-end
-  * Seeded 10 million records and benchmarked query times
-    * Optimized query times for a RDBMS (PostgresSQL) and NoSQL DBMS (MongoDB) by utilizing connection pooling and B-tree indexing
-    * MongoDB yielded better results under high traffic
-  * Horizontally scaled out on AWS EC2 micro-service instances and utilized Nginx load balancer (Round Robin technique)
-
-**Result: 4,440 request per second with 0% error rate**
+![SDC-results-image](SDC-results.png)
 
 ## Requirements <a name="requirements"></a>
 
-You will need [Node.js](https://nodejs.org/en/) and [mongoDB](https://docs.mongodb.com/manual/administration/install-community/) installed on your system.
+You will need [Node.js](https://nodejs.org/en/) and [MongoDB](https://docs.mongodb.com/manual/administration/install-community/) installed on your system.
 
 ## Installation & Setup <a name="installation"></a>
 
@@ -35,7 +29,7 @@ $ npm run seed
 $ npm run write
 ```
 
-Start app with:
+Start the app with:
 
 ```bash
 $ npm start
